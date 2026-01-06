@@ -14,6 +14,7 @@ function ProductDetailsPage() {
   const [deleting, setDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
+  const [deleteSuccess, setDeleteSuccess] = useState('');
 
   useEffect(() => {
     async function fetchProduct() {
@@ -36,7 +37,8 @@ function ProductDetailsPage() {
       setDeleting(true);
       setDeleteError(null);
       await axios.delete(`${API_URL}/${id}`);
-      // API says success but does not persist, which is expected
+      // API says success but does not persist, which is expected....now i need to add delete success message
+      setDeleteSuccess('Product deleted successfully!');
       navigate("/products");
     } catch (err) {
       setDeleteError("Failed to delete product. Please try again.");
@@ -101,6 +103,15 @@ function ProductDetailsPage() {
               Delete Product
             </Button>
           </div>
+
+        // Display delete success or error messages
+
+          {deleteSuccess && (
+            <Alert variant="success" className="mt-3">
+              {deleteSuccess}
+            </Alert>
+          )}
+
           {deleteError && (
             <Alert variant="danger" className="mt-3">
               {deleteError}
